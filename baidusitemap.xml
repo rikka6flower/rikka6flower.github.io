@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://www.sakura521.cn/technology/hexoTutorial.html</loc>
+    <lastmod>2020-04-23</lastmod>
+  </url>  <url>
     <loc>https://www.sakura521.cn/technology/winkpython.html</loc>
     <lastmod>2020-04-15</lastmod>
   </url>  <url>
@@ -44,9 +47,6 @@
     <lastmod>2020-03-19</lastmod>
   </url>  <url>
     <loc>https://www.sakura521.cn/technology/nodeTutorial.html</loc>
-    <lastmod>2020-03-19</lastmod>
-  </url>  <url>
-    <loc>https://www.sakura521.cn/technology/hexoTutorial.html</loc>
     <lastmod>2020-03-19</lastmod>
   </url>  <url>
     <loc>https://www.sakura521.cn/technology/freeCDN.html</loc>
