@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-<meta name="keywords" content="java,steam,流,java8,学习,Hexo,Sakura,樱花,前端博客,JavaScript,html5,css3,Jquery,NodeJs,Ubuntu,hexo,sakura,github,Github,博客,免费博客,学生博客,css,js,html,java">
+<meta name="keywords" content="java,springboot,mq,rabbitMQ,Hexo,Sakura,樱花,前端博客,JavaScript,html5,css3,Jquery,NodeJs,Ubuntu,hexo,sakura,github,Github,博客,免费博客,学生博客,css,js,html,java">
 
   
-<meta name="description" content="Steam流 学习小笔记">
+<meta name="description" content="Spring Boot RabbitMQ 小练习">
 
   
-  <title itemprop="name">Java Steam流 学习小笔记 | 樱花🌸</title>
+  <title itemprop="name">Spring Boot RabbitMQ 小练习 | 樱花🌸</title>
   
     <link rel="shortcut icon" href="https://2heng.xin/favicon.ico">
   
@@ -376,11 +376,11 @@
 
   <div class="pattern-center single-center">
     <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/wang1375830242/PicGo//img/20200604170024.webp);" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/wang1375830242/PicGo//img/20200604170024.webp">
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/wang1375830242/PicGo//img/20200614155905.webp);" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/wang1375830242/PicGo//img/20200614155905.webp">
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
-      Java Steam流 学习小笔记</h1>
+      Spring Boot RabbitMQ 小练习</h1>
       <p class="entry-census">
         <span>
           <a href="sakura521.cn">
@@ -392,7 +392,7 @@
         </span>
         <span class="bull">
         ·</span>
-        2020-6-4<span class="bull">
+        2020-6-14<span class="bull">
         ·</span>
       <span id="busuanzi_value_page_pv"></span>次阅读</p>
     </header>
@@ -406,146 +406,797 @@
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
         <div class="entry-content">
-          <h1 id="Java8-Stream"><a href="#Java8-Stream" class="headerlink" title="Java8 Stream"></a>Java8 Stream</h1><p><code>Java 8 API添加了一个新的抽象称为流Stream，可以让你以一种声明的方式处理数据。</code></p>
-<p><code>Stream 使用一种类似用 SQL 语句从数据库查询数据的直观方式来提供一种对 Java 集合运算和表达的高阶抽象。</code></p>
-<p><code>Stream API可以极大提高Java程序员的生产力，让程序员写出高效率、干净、简洁的代码。</code></p>
-<p><code>这种风格将要处理的元素集合看作一种流， 流在管道中传输， 并且可以在管道的节点上进行处理， 比如筛选， 排序，聚合等。</code></p>
-<p><code>元素流在管道中经过中间操作（intermediate operation）的处理，最后由最终操作(terminal operation)得到前面处理的结果。</code></p>
-<pre><code>+--------------------+       +------+   +------+   +---+   +-------+
-| stream of elements +-----&gt; |filter+-&gt; |sorted+-&gt; |map+-&gt; |collect|
-+--------------------+       +------+   +------+   +---+   +-------+
-</code></pre><h2 id="学习代码记录"><a href="#学习代码记录" class="headerlink" title="学习代码记录"></a>学习代码记录</h2><pre><code class="java">List&lt;Long&gt; nums = Arrays.asList(3L, 3L, 39L, 32L, 123L, 534L, 46542L, 3211L);
-nums.stream()
-        .map(integer -&gt; integer * integer + &quot;  &quot;)
-        .distinct()
-        .collect(Collectors.toList())
-        .forEach(System.out::print);
-
-System.out.println();
-System.out.println(&quot;----------------------------------------------&quot;);
-
-long count = nums.stream().filter(i -&gt; i.equals(3L)).count();
-System.out.println(&quot;包含3L的有 = &quot; + count+&quot;个&quot;);
-System.out.println(&quot;----------------------------------------------&quot;);
-
-
-Random random = new Random();
-System.out.println(&quot;随机数排序前&quot;);
-random.ints().limit(10).forEach(System.out::println);
-System.out.println(&quot;----------------------------------------------&quot;);
-System.out.println(&quot;随机数排序后&quot;);
-random.ints().limit(10).sorted().forEach(System.out::println);
-System.out.println(&quot;----------------------------------------------&quot;);
-
-List&lt;String&gt; strings = Arrays.asList(&quot;acas&quot;, &quot;&quot;, &quot;sda&quot;, &quot;sdadsaddsad&quot;, &quot;dwadas&quot;);
-long count1 = strings.parallelStream()
-        .filter(s -&gt; s.isEmpty()).count();
-System.out.println(&quot;在&quot;+strings+&quot;中包含空字符串有&quot; + count1 + &quot;个&quot;);
-System.out.println(&quot;----------------------------------------------&quot;);
-
-List&lt;String&gt; collect = strings.stream()
-        .filter(s -&gt; !s.isEmpty())
-        .collect(Collectors.toList());
-System.out.println(&quot;去除空后的筛选列表&quot;+collect);
-System.out.println(&quot;----------------------------------------------&quot;);
-
-String collect1 = strings.stream()
-        .filter(s -&gt; !s.isEmpty())
-        .collect(Collectors.joining(&quot;,&quot;));
-System.out.println(&quot;将&quot;+strings+&quot;组合成一个string后：&quot; + collect1);
-System.out.println(&quot;----------------------------------------------&quot;);
-
-List&lt;Integer&gt; integers = Arrays.asList(1, 2, 3, 4, 5, 6, 11, 111, 22, 12);
-IntSummaryStatistics intSummaryStatistics = integers.stream()
-        .mapToInt((x) -&gt; x).summaryStatistics();
-System.out.println(&quot;最大值:&quot;+intSummaryStatistics.getMax());
-System.out.println(&quot;最小值:&quot;+intSummaryStatistics.getMin());
-System.out.println(&quot;所有数之和:&quot;+intSummaryStatistics.getSum());
-System.out.println(&quot;平均数:&quot;+intSummaryStatistics.getAverage());
+          <h1 id="RabbitMQ"><a href="#RabbitMQ" class="headerlink" title="RabbitMQ"></a>RabbitMQ</h1><p>官网：<a href="https://www.rabbitmq.com/" target="_blank" rel="noopener">https://www.rabbitmq.com/</a></p>
+<p>RabbitMQ是部署最广泛的开源消息代理。</p>
+<p>RabbitMQ拥有成千上万的用户，是最受欢迎的开源消息代理之一。从<a href="https://www.youtube.com/watch?v=1qcTu2QUtrU" target="_blank" rel="noopener">T-Mobile</a> 到<a href="https://medium.com/@runtastic/messagebus-handling-dead-letters-in-rabbitmq-using-a-dead-letter-exchange-f070699b952b" target="_blank" rel="noopener">Runtastic</a>，RabbitMQ在全球范围内的小型初创企业和大型企业中都得到使用。</p>
+<p>RabbitMQ轻巧，易于在内部和云中部署。它支持多种消息传递协议。RabbitMQ可以部署在分布式和联合配置中，以满足大规模，高可用性的要求。</p>
+<p>RabbitMQ可在许多操作系统和云环境上运行，并<a href="https://www.rabbitmq.com/devtools.html" target="_blank" rel="noopener">为大多数流行语言</a>提供了<a href="https://www.rabbitmq.com/devtools.html" target="_blank" rel="noopener">广泛的开发人员工具</a>。</p>
+<h1 id="Spring-Boot-整合-RabbitMQ"><a href="#Spring-Boot-整合-RabbitMQ" class="headerlink" title="Spring Boot 整合 RabbitMQ"></a>Spring Boot 整合 RabbitMQ</h1><h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="添加依赖"><a href="#添加依赖" class="headerlink" title="添加依赖"></a>添加依赖</h3><pre><code class="xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-amqp&lt;/artifactId&gt;
+&lt;/dependency&gt;
 </code></pre>
-<h2 id="打印结果"><a href="#打印结果" class="headerlink" title="打印结果"></a>打印结果</h2><pre><code>9  1521  1024  15129  285156  2166157764  10310521  
-----------------------------------------------
-包含3L的有 = 2个
-----------------------------------------------
-随机数排序前
-1399523865
-374116917
--1454199312
-1925671743
-580107117
--2137427526
-237695867
--55497742
--1502376427
-1398197257
-----------------------------------------------
-随机数排序后
--2130838075
--1574466058
--1469617767
--534793213
--158077868
--143294047
-234751172
-1147396663
-1216434490
-2103427929
-----------------------------------------------
-在[acas, , sda, sdadsaddsad, dwadas]中包含空字符串有1个
-----------------------------------------------
-去除空后的筛选列表[acas, sda, sdadsaddsad, dwadas]
-----------------------------------------------
-将[acas, , sda, sdadsaddsad, dwadas]组合成一个string后：acas,sda,sdadsaddsad,dwadas
-----------------------------------------------
-最大值:111
-最小值:1
-所有数之和:177
-平均数:17.7
-
-Process finished with exit code 0
-</code></pre><h1 id="6-5更新"><a href="#6-5更新" class="headerlink" title="6.5更新"></a><code>6.5更新</code></h1><p>利用steam流对学生成绩进行分区</p>
-<h2 id="学生实体类"><a href="#学生实体类" class="headerlink" title="学生实体类"></a>学生实体类</h2><pre><code class="java">import lombok.Data;
-
-@Data
-public class Student {
-
-    private String name;
-    private int score;
+<h3 id="配置-1"><a href="#配置-1" class="headerlink" title="配置"></a>配置</h3><pre><code class="yaml">spring:
+  rabbitmq:
+    host: 127.0.0.1
+    username: guest
+    password: guest
+</code></pre>
+<h2 id="一对一：一个发送者一个接收者"><a href="#一对一：一个发送者一个接收者" class="headerlink" title="一对一：一个发送者一个接收者"></a>一对一：一个发送者一个接收者</h2><h3 id="队列配置"><a href="#队列配置" class="headerlink" title="队列配置"></a>队列配置</h3><pre><code class="java">import org.springframework.amqp.core.Queue;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 
-    public Student(String name, int score) {
-        this.name = name;
-        this.score = score;
+@Configuration
+public class RabvitConfig {
+
+    @Bean
+    public Queue queue() {
+        return new Queue(&quot;hello&quot;);
+    }
+
+}
+</code></pre>
+<h3 id="发送"><a href="#发送" class="headerlink" title="发送"></a>发送</h3><pre><code class="java">import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
+
+@Component
+public class HelloSender {
+
+    @Autowired
+    private AmqpTemplate amqpTemplate;
+
+    public void send() {
+        String context = &quot;hello---&quot; + LocalDateTime.now();
+        System.out.println(&quot;context = &quot; + context);
+        amqpTemplate.convertAndSend(&quot;hello&quot;, context);
+    }
+
+
+}
+</code></pre>
+<h3 id="接收"><a href="#接收" class="headerlink" title="接收"></a>接收</h3><pre><code class="java">import org.springframework.amqp.rabbit.annotation.RabbitHandler;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Component;
+
+@Component
+@RabbitListener(queues = &quot;hello&quot;)
+public class HelloReceiver {
+
+    // 消息处理器
+    @RabbitHandler
+    public void process(String message) {
+        System.out.println(&quot;message = &quot; + message);
+    }
+
+}
+</code></pre>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><pre><code class="java">import cn.sakura521.redis_demo.demo.HelloSender;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class RedisDemoApplicationTests {
+
+    @Autowired
+    private HelloSender helloSender;
+
+    @Test
+    void contextLoads() {
+        helloSender.send();
+    }
+
+}
+</code></pre>
+<h3 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h3><pre><code>context = hello---2020-06-14T15:41:22.320
+message = hello---2020-06-14T15:41:22.320
+</code></pre><h2 id="一对多：发送一个发送者多个接收者"><a href="#一对多：发送一个发送者多个接收者" class="headerlink" title="一对多：发送一个发送者多个接收者"></a>一对多：发送一个发送者多个接收者</h2><h3 id="添加队列"><a href="#添加队列" class="headerlink" title="添加队列"></a>添加队列</h3><pre><code class="java">import org.springframework.amqp.core.Queue;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+
+@Configuration
+public class RabvitConfig {
+
+
+    @Bean
+    public Queue queue() {
+        return new Queue(&quot;hello&quot;);
+    }
+
+    @Bean
+    public Queue queue2() {
+        return new Queue(&quot;hello2&quot;);
+    }
+
+}
+</code></pre>
+<h3 id="发送-1"><a href="#发送-1" class="headerlink" title="发送"></a>发送</h3><pre><code class="java">import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
+
+@Component
+public class HelloSender {
+
+    @Autowired
+    private AmqpTemplate amqpTemplate;
+
+    public void send2(int i) {
+        String context = i + &quot;&quot;;
+        System.out.println(context + &quot;----send&quot;);
+        amqpTemplate.convertAndSend(&quot;hello2&quot;, context);
+    }
+
+
+}
+</code></pre>
+<h3 id="接收-1"><a href="#接收-1" class="headerlink" title="接收"></a>接收</h3><p><code>两个接收者</code></p>
+<h4 id="接收者1"><a href="#接收者1" class="headerlink" title="接收者1"></a>接收者1</h4><pre><code class="java">import org.springframework.amqp.rabbit.annotation.RabbitHandler;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Component;
+
+@Component
+@RabbitListener(queues = &quot;hello2&quot;)
+public class HelloReceiver1 {
+
+    @RabbitHandler
+    public void process(String message){
+        System.out.println(&quot;HelloReceiver1 = &quot; + message);
+    }
+
+}
+</code></pre>
+<h4 id="接收者2"><a href="#接收者2" class="headerlink" title="接收者2"></a>接收者2</h4><pre><code class="java">import org.springframework.amqp.rabbit.annotation.RabbitHandler;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Component;
+
+@Component
+@RabbitListener(queues = &quot;hello2&quot;)
+public class HelloReceiver2 {
+
+    @RabbitHandler
+    public void process(String message){
+        System.out.println(&quot;HelloReceiver2 = &quot; + message);
+    }
+
+}
+</code></pre>
+<h3 id="测试-1"><a href="#测试-1" class="headerlink" title="测试"></a>测试</h3><pre><code class="java">import cn.sakura521.redis_demo.demo.HelloSender;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class RedisDemoApplicationTests {
+
+    @Autowired
+    private HelloSender helloSender;
+
+    @Test
+    void mangReceiver() {
+        for (int i = 0; i &lt; 25; i++) {
+            helloSender.send2(i);
+        }
+    }
+
+}
+</code></pre>
+<h3 id="测试结果-1"><a href="#测试结果-1" class="headerlink" title="测试结果"></a>测试结果</h3><p>多次测试每次测试显示均不一样。</p>
+<pre><code>0----send
+1----send
+2----send
+3----send
+4----send
+5----send
+6----send
+7----send
+8----send
+9----send
+10----send
+11----send
+12----send
+13----send
+14----send
+15----send
+16----send
+17----send
+18----send
+19----send
+20----send
+21----send
+22----send
+23----send
+24----send
+HelloReceiver1 = 0
+HelloReceiver1 = 2
+HelloReceiver1 = 4
+HelloReceiver1 = 6
+HelloReceiver2 = 1
+HelloReceiver1 = 8
+HelloReceiver2 = 3
+HelloReceiver2 = 5
+HelloReceiver2 = 7
+HelloReceiver1 = 10
+HelloReceiver1 = 12
+HelloReceiver1 = 14
+HelloReceiver1 = 16
+</code></pre><h2 id="多对多：多个发送者对多个接收者"><a href="#多对多：多个发送者对多个接收者" class="headerlink" title="多对多：多个发送者对多个接收者"></a>多对多：多个发送者对多个接收者</h2><p><code>更改上一个测试用例</code></p>
+<h3 id="测试-2"><a href="#测试-2" class="headerlink" title="测试"></a>测试</h3><pre><code class="java">import cn.sakura521.redis_demo.demo.HelloSender;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class RedisDemoApplicationTests {
+
+    @Autowired
+    private HelloSender helloSender;
+
+    @Test
+    void mangReceiver() {
+        for (int i = 0; i &lt; 25; i++) {
+            helloSender.send();
+            helloSender.send2(i);
+        }
+    }
+
+}
+</code></pre>
+<h3 id="测试结果-2"><a href="#测试结果-2" class="headerlink" title="测试结果"></a>测试结果</h3><pre><code>context = hello---2020-06-14T17:16:44.640
+0----send
+context = hello---2020-06-14T17:16:44.647
+1----send
+context = hello---2020-06-14T17:16:44.649
+2----send
+context = hello---2020-06-14T17:16:44.649
+3----send
+context = hello---2020-06-14T17:16:44.649
+4----send
+context = hello---2020-06-14T17:16:44.649
+5----send
+context = hello---2020-06-14T17:16:44.650
+6----send
+context = hello---2020-06-14T17:16:44.656
+7----send
+context = hello---2020-06-14T17:16:44.657
+8----send
+context = hello---2020-06-14T17:16:44.657
+9----send
+context = hello---2020-06-14T17:16:44.658
+10----send
+context = hello---2020-06-14T17:16:44.658
+11----send
+context = hello---2020-06-14T17:16:44.659
+12----send
+context = hello---2020-06-14T17:16:44.660
+13----send
+context = hello---2020-06-14T17:16:44.660
+14----send
+context = hello---2020-06-14T17:16:44.660
+15----send
+context = hello---2020-06-14T17:16:44.661
+16----send
+context = hello---2020-06-14T17:16:44.663
+17----send
+context = hello---2020-06-14T17:16:44.663
+18----send
+context = hello---2020-06-14T17:16:44.668
+19----send
+context = hello---2020-06-14T17:16:44.669
+20----send
+context = hello---2020-06-14T17:16:44.670
+21----send
+context = hello---2020-06-14T17:16:44.671
+22----send
+context = hello---2020-06-14T17:16:44.671
+23----send
+context = hello---2020-06-14T17:16:44.672
+24----send
+HelloReceiver2 = 1
+HelloReceiver = hello---2020-06-14T17:16:44.640
+HelloReceiver1 = 0
+HelloReceiver2 = 3
+HelloReceiver = hello---2020-06-14T17:16:44.647
+HelloReceiver2 = 5
+HelloReceiver1 = 2
+HelloReceiver = hello---2020-06-14T17:16:44.649
+HelloReceiver2 = 7
+HelloReceiver1 = 4
+HelloReceiver2 = 9
+HelloReceiver = hello---2020-06-14T17:16:44.649
+HelloReceiver1 = 6
+HelloReceiver2 = 11
+HelloReceiver1 = 8
+HelloReceiver2 = 13
+HelloReceiver1 = 10
+HelloReceiver = hello---2020-06-14T17:16:44.649
+HelloReceiver = hello---2020-06-14T17:16:44.649
+HelloReceiver2 = 15
+HelloReceiver = hello---2020-06-14T17:16:44.650
+HelloReceiver = hello---2020-06-14T17:16:44.656
+HelloReceiver1 = 12
+HelloReceiver = hello---2020-06-14T17:16:44.657
+HelloReceiver1 = 14
+HelloReceiver = hello---2020-06-14T17:16:44.657
+HelloReceiver = hello---2020-06-14T17:16:44.658
+HelloReceiver = hello---2020-06-14T17:16:44.658
+HelloReceiver = hello---2020-06-14T17:16:44.659
+HelloReceiver = hello---2020-06-14T17:16:44.660
+HelloReceiver = hello---2020-06-14T17:16:44.660
+HelloReceiver = hello---2020-06-14T17:16:44.660
+HelloReceiver = hello---2020-06-14T17:16:44.661
+HelloReceiver = hello---2020-06-14T17:16:44.663
+HelloReceiver1 = 16
+HelloReceiver2 = 17
+HelloReceiver1 = 18
+HelloReceiver1 = 20
+HelloReceiver1 = 22
+HelloReceiver2 = 19
+HelloReceiver = hello---2020-06-14T17:16:44.663
+HelloReceiver1 = 24
+HelloReceiver2 = 21
+HelloReceiver = hello---2020-06-14T17:16:44.668
+HelloReceiver2 = 23
+HelloReceiver = hello---2020-06-14T17:16:44.669
+HelloReceiver = hello---2020-06-14T17:16:44.670
+HelloReceiver = hello---2020-06-14T17:16:44.671
+HelloReceiver = hello---2020-06-14T17:16:44.671
+HelloReceiver = hello---2020-06-14T17:16:44.672
+</code></pre><h2 id="发送对象"><a href="#发送对象" class="headerlink" title="发送对象"></a>发送对象</h2><h3 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h3><p>首先创建对象User,并实现Serializable接口</p>
+<pre><code class="java">import java.io.Serializable;
+
+public class User implements Serializable {
+
+    private String username;
+    private String password;
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return &quot;User{&quot; +
+                &quot;username=&#39;&quot; + username + &#39;\&#39;&#39; +
+                &quot;, password=&#39;&quot; + password + &#39;\&#39;&#39; +
+                &#39;}&#39;;
     }
 }
 </code></pre>
-<h2 id="处理"><a href="#处理" class="headerlink" title="处理"></a>处理</h2><pre><code class="java">public static void main(String[] args) {
-    List&lt;Student&gt; students = Arrays.asList(
-            new Student(&quot;小红&quot;, 61),
-            new Student(&quot;小绿&quot;, 51),
-            new Student(&quot;小蓝&quot;, 60),
-            new Student(&quot;小紫&quot;, 99),
-            new Student(&quot;小粉&quot;, 100),
-            new Student(&quot;小灰&quot;, 59)
-    );
-    Map&lt;Boolean, List&lt;Student&gt;&gt; collect = students.stream()
-            .collect(Collectors.partitioningBy(student -&gt; student.getScore() &gt; 59));
-    System.out.println(&quot;collect = &quot; + collect);
-    System.out.println(&quot;及格的&quot;);
-    System.out.println(collect.get(true));
-    System.out.println(&quot;不及格的&quot;);
-    System.out.println(collect.get(false));
+<h3 id="创建队列"><a href="#创建队列" class="headerlink" title="创建队列"></a>创建队列</h3><pre><code class="java">import org.springframework.amqp.core.Queue;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+
+@Configuration
+public class RabvitConfig {
+
+    @Bean
+    public Queue queue3() {
+        return new Queue(&quot;object_queue&quot;);
+    }
+}
+</code></pre>
+<h3 id="发送-2"><a href="#发送-2" class="headerlink" title="发送"></a>发送</h3><pre><code class="java">import cn.sakura521.redis_demo.pojo.User;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class ObjectSender {
+
+    @Autowired
+    private AmqpTemplate amqpTemplate;
+
+    public void sendUser(User user) {
+        System.out.println(&quot;sendUser = &quot; + user);
+        amqpTemplate.convertAndSend(&quot;object_queue&quot;, user);
+    }
 
 }
 </code></pre>
-<h2 id="打印结果-1"><a href="#打印结果-1" class="headerlink" title="打印结果"></a>打印结果</h2><pre><code>collect = {false=[Student(name=小绿, score=51), Student(name=小灰, score=59)], true=[Student(name=小红, score=61), Student(name=小蓝, score=60), Student(name=小紫, score=99), Student(name=小粉, score=100)]}
-及格的
-[Student(name=小红, score=61), Student(name=小蓝, score=60), Student(name=小紫, score=99), Student(name=小粉, score=100)]
-不及格的
-[Student(name=小绿, score=51), Student(name=小灰, score=59)]
+<h3 id="接收-2"><a href="#接收-2" class="headerlink" title="接收"></a>接收</h3><pre><code class="java">import cn.sakura521.redis_demo.pojo.User;
+import org.springframework.amqp.rabbit.annotation.RabbitHandler;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Component;
 
-Process finished with exit code 0
+@Component
+@RabbitListener(queues = &quot;object_queue&quot;)
+public class ObjectReceiver {
+
+    @RabbitHandler
+    public void objectReceiver(User user) {
+        System.out.println(&quot;objectReceiver = &quot; + user);
+    }
+
+}
 </code></pre>
+<h3 id="测试-3"><a href="#测试-3" class="headerlink" title="测试"></a>测试</h3><pre><code class="java">import cn.sakura521.redis_demo.demo.HelloSender;
+import cn.sakura521.redis_demo.demo.ObjectSender;
+import cn.sakura521.redis_demo.pojo.User;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class RedisDemoApplicationTests {
+
+    @Autowired
+    private ObjectSender objectSender;
+
+    @Test
+    void sendUser() {
+        User user = new User(&quot;小坏孩&quot;, &quot;123456&quot;);
+        objectSender.sendUser(user);
+    }
+
+}
+</code></pre>
+<h3 id="测试结果-3"><a href="#测试结果-3" class="headerlink" title="测试结果"></a>测试结果</h3><pre><code>sendUser = User{username=&#39;小坏孩&#39;, password=&#39;123456&#39;}
+
+objectReceiver = User{username=&#39;小坏孩&#39;, password=&#39;123456&#39;}
+</code></pre><h2 id="Topic-Exchange"><a href="#Topic-Exchange" class="headerlink" title="Topic Exchange"></a>Topic Exchange</h2><p><strong>topic 是RabbitMQ中最灵活的一种方式，可以根据routing_key自由的绑定不同的队列</strong></p>
+<h3 id="topic规则配置"><a href="#topic规则配置" class="headerlink" title="topic规则配置"></a>topic规则配置</h3><pre><code class="java">import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.TopicExchange;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+
+@Configuration
+public class TopicRabbitConfig {
+
+    final static String message = &quot;topic.message&quot;;
+    final static String messages = &quot;topic.messages&quot;;
+
+
+    @Bean
+    public Queue queueMsg() {
+        return new Queue(TopicRabbitConfig.message);
+    }
+
+    @Bean
+    public Queue queueMsgs() {
+        return new Queue(TopicRabbitConfig.messages);
+    }
+
+    // 配置 TopicExchange,指定名称为 topicExchange
+    @Bean
+    public TopicExchange exchange() {
+        return new TopicExchange(&quot;topicExchange&quot;);
+    }
+
+    // 给队列绑定exchange和routing_key
+    @Bean
+    public Binding bindingExchangeMessage(Queue queueMsg, TopicExchange exchange) {
+        return BindingBuilder.bind(queueMsg).to(exchange).with(&quot;topic.message&quot;);
+    }
+
+    @Bean
+    public Binding bindingExchangeMessages(Queue queueMsgs, TopicExchange exchange) {
+        return BindingBuilder.bind(queueMsgs).to(exchange).with(&quot;topic.#&quot;);
+    }
+
+}
+</code></pre>
+<h3 id="发送-3"><a href="#发送-3" class="headerlink" title="发送"></a>发送</h3><p><code>消息发送者:都是用topicExchange,并且绑定到不同的 routing_key</code></p>
+<pre><code class="java">import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class TopicSender {
+
+    @Autowired
+    private AmqpTemplate amqpTemplate;
+
+    public void send1() {
+        String context = &quot;消息1&quot;;
+        System.out.println(&quot;Sender1 = &quot; + context);
+        amqpTemplate.convertAndSend(&quot;topicExchange&quot;, &quot;topic.message&quot;, context);
+    }
+
+    public void send2() {
+        String context = &quot;消息2&quot;;
+        System.out.println(&quot;Sender2 = &quot; + context);
+        amqpTemplate.convertAndSend(&quot;topicExchange&quot;, &quot;topic.messages&quot;, context);
+    }
+
+}
+</code></pre>
+<h3 id="接收-3"><a href="#接收-3" class="headerlink" title="接收"></a>接收</h3><h4 id="接收1"><a href="#接收1" class="headerlink" title="接收1"></a>接收1</h4><pre><code class="java">import org.springframework.amqp.rabbit.annotation.RabbitHandler;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Component;
+
+@Component
+@RabbitListener(queues = &quot;topic.message&quot;)
+public class TopicReceiver1 {
+
+    @RabbitHandler
+    public void process(String message){
+        System.out.println(&quot;topic.message = &quot; + message);
+    }
+
+}
+</code></pre>
+<h4 id="接收2"><a href="#接收2" class="headerlink" title="接收2"></a>接收2</h4><pre><code class="java">import org.springframework.amqp.rabbit.annotation.RabbitHandler;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Component;
+
+@Component
+@RabbitListener(queues = &quot;topic.messages&quot;)
+public class TopicReceiver2 {
+
+    @RabbitHandler
+    public void process(String message){
+        System.out.println(&quot;topic.messages = &quot; + message);
+    }
+
+}
+</code></pre>
+<h3 id="测试-4"><a href="#测试-4" class="headerlink" title="测试"></a>测试</h3><pre><code class="java">package cn.sakura521.redis_demo;
+
+import cn.sakura521.redis_demo.demo.HelloSender;
+import cn.sakura521.redis_demo.demo.ObjectSender;
+import cn.sakura521.redis_demo.demo.TopicSender;
+import cn.sakura521.redis_demo.pojo.User;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class RedisDemoApplicationTests {
+
+    @Autowired
+    private TopicSender topicSender;
+
+    @Test
+    void topicSender() {
+        topicSender.send1();
+        System.out.println(&quot;---------------------------------------&quot;);
+        topicSender.send2();
+    }
+
+}
+</code></pre>
+<h3 id="测试结果-4"><a href="#测试结果-4" class="headerlink" title="测试结果"></a>测试结果</h3><pre><code>Sender1 = 消息1
+---------------------------------------
+Sender2 = 消息2
+
+topic.messages = 消息1
+topic.message = 消息1
+topic.messages = 消息2
+</code></pre><h2 id="Fanout-Exchange"><a href="#Fanout-Exchange" class="headerlink" title="Fanout Exchange"></a>Fanout Exchange</h2><p><strong>Fanout 就是我们熟悉的广播模式或者订阅模式，给Fanout交换机发送消息，绑定了这个交换机的所有队列都收到这个消息。</strong></p>
+<h3 id="配置-2"><a href="#配置-2" class="headerlink" title="配置"></a>配置</h3><pre><code class="java">import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.FanoutExchange;
+import org.springframework.amqp.core.Queue;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+
+@Configuration
+public class FanQutRabbitMq {
+
+    @Bean
+    public Queue AMessage() {
+        return new Queue(&quot;fanout.A&quot;);
+    }
+
+
+    @Bean
+    public Queue BMessage() {
+        return new Queue(&quot;fanout.B&quot;);
+    }
+
+
+    @Bean
+    public Queue CMessage() {
+        return new Queue(&quot;fanout.C&quot;);
+    }
+
+    @Bean
+    public FanoutExchange fanoutExchange() {
+        return new FanoutExchange(&quot;fanoutExchange&quot;);
+    }
+
+    //分别给三个队列指定exchange,这里使用了A、B、C三个队列绑定到Fanout交换机上面，发送端的routing_key写任何字符都会被忽略：
+    @Bean
+    public Binding bindingExchangeA(Queue AMessage, FanoutExchange fanoutExchange) {
+        return BindingBuilder.bind(AMessage).to(fanoutExchange);
+    }
+
+    @Bean
+    public Binding bindingExchangeB(Queue BMessage, FanoutExchange fanoutExchange) {
+        return BindingBuilder.bind(BMessage).to(fanoutExchange);
+    }
+
+    @Bean
+    public Binding bindingExchangeC(Queue CMessage, FanoutExchange fanoutExchange) {
+        return BindingBuilder.bind(CMessage).to(fanoutExchange);
+    }
+
+
+}
+</code></pre>
+<h3 id="发送-4"><a href="#发送-4" class="headerlink" title="发送"></a>发送</h3><pre><code class="java">import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class FanoutSender {
+
+
+    @Autowired
+    private AmqpTemplate amqpTemplate;
+
+
+    public void send() {
+        String context = &quot;hi,fanout.msg&quot;;
+        System.out.println(&quot;Sender = &quot; + context);
+        //这里使用了A、B、C三个队列绑定到Fanout交换机上面，发送端的routing_key写任何字符都会被忽略：
+        amqpTemplate.convertAndSend(&quot;fanoutExchange&quot;, &quot;&quot;, context);
+    }
+
+}
+</code></pre>
+<h3 id="接收-4"><a href="#接收-4" class="headerlink" title="接收"></a>接收</h3><h4 id="接收者A"><a href="#接收者A" class="headerlink" title="接收者A"></a>接收者A</h4><pre><code class="java">import org.springframework.amqp.rabbit.annotation.RabbitHandler;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Component;
+
+@Component
+@RabbitListener(queues = &quot;fanout.A&quot;)
+public class FanoutReceiverA {
+
+    @RabbitHandler
+    public void process(String message){
+        System.out.println(&quot;Receiver form fanout.A: &quot; + message);
+    }
+
+}
+</code></pre>
+<h4 id="接收者B"><a href="#接收者B" class="headerlink" title="接收者B"></a>接收者B</h4><pre><code class="java">import org.springframework.amqp.rabbit.annotation.RabbitHandler;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Component;
+
+@Component
+@RabbitListener(queues = &quot;fanout.B&quot;)
+public class FanoutReceiverB {
+
+    @RabbitHandler
+    public void process(String message){
+        System.out.println(&quot;Receiver form fanout.B: &quot; + message);
+    }
+
+}
+</code></pre>
+<h4 id="接收者C"><a href="#接收者C" class="headerlink" title="接收者C"></a>接收者C</h4><pre><code class="java">import org.springframework.amqp.rabbit.annotation.RabbitHandler;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Component;
+
+@Component
+@RabbitListener(queues = &quot;fanout.C&quot;)
+public class FanoutReceiverC {
+
+    @RabbitHandler
+    public void process(String message){
+        System.out.println(&quot;Receiver form fanout.C: &quot; + message);
+    }
+
+}
+</code></pre>
+<h3 id="测试-5"><a href="#测试-5" class="headerlink" title="测试"></a>测试</h3><pre><code class="java">package cn.sakura521.redis_demo;
+
+import cn.sakura521.redis_demo.demo.FanoutSender;
+import cn.sakura521.redis_demo.demo.HelloSender;
+import cn.sakura521.redis_demo.demo.ObjectSender;
+import cn.sakura521.redis_demo.demo.TopicSender;
+import cn.sakura521.redis_demo.pojo.User;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class RedisDemoApplicationTests {
+
+    @Autowired
+    private FanoutSender fanoutSender;
+
+    @Test
+    void fanoutSender(){
+        fanoutSender.send();
+    }
+
+}
+</code></pre>
+<h3 id="测试结果-5"><a href="#测试结果-5" class="headerlink" title="测试结果"></a>测试结果</h3><pre><code>Sender = hi,fanout.msg
+
+Receiver form fanout.B: hi,fanout.msg
+Receiver form fanout.C: hi,fanout.msg
+Receiver form fanout.A: hi,fanout.msg
+</code></pre><h2 id="最终全部测试用例"><a href="#最终全部测试用例" class="headerlink" title="最终全部测试用例"></a>最终全部测试用例</h2><pre><code class="java">import cn.sakura521.redis_demo.demo.FanoutSender;
+import cn.sakura521.redis_demo.demo.HelloSender;
+import cn.sakura521.redis_demo.demo.ObjectSender;
+import cn.sakura521.redis_demo.demo.TopicSender;
+import cn.sakura521.redis_demo.pojo.User;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class RedisDemoApplicationTests {
+
+    @Autowired
+    private HelloSender helloSender;
+
+    @Autowired
+    private ObjectSender objectSender;
+
+    @Autowired
+    private TopicSender topicSender;
+
+    @Autowired
+    private FanoutSender fanoutSender;
+
+    @Test
+    void contextLoads() {
+        helloSender.send();
+    }
+
+    @Test
+    void mangReceiver() {
+        for (int i = 0; i &lt; 25; i++) {
+            helloSender.send();
+            helloSender.send2(i);
+        }
+    }
+
+    @Test
+    void sendUser() {
+        User user = new User(&quot;小坏孩&quot;, &quot;123456&quot;);
+        objectSender.sendUser(user);
+    }
+
+    @Test
+    void topicSender() {
+        topicSender.send1();
+        System.out.println(&quot;---------------------------------------&quot;);
+        topicSender.send2();
+    }
+
+    @Test
+    void fanoutSender(){
+        fanoutSender.send();
+    }
+
+}
+</code></pre>
+
         </div>
 		
 		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -585,36 +1236,19 @@ Process finished with exit code 0
       <div class="toc" style="background: none;"></div>
       <section class="post-squares nextprev">
         
-          
-            <div class="post-nepre half previous">
-          
-            <a href="/technology/rabbitMQ.html" rel="prev">
-              <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/wang1375830242/PicGo//img/20200614155905.webp" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/wang1375830242/PicGo//img/20200614155905.webp">
-              </div>
-              <span class="label">
-              Previous Post</span>
-              <div class="info">
-                <h3>
-                Spring Boot RabbitMQ 小练习</h3>
-                <hr>
-              </div>
-            </a>
-          </div>
-        
         
           
-            <div class="post-nepre half next">
+            <div class="post-nepre full next">
           
-            <a href="/technology/winkpython.html" rel="next">
+            <a href="/technology/steam.html" rel="next">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/wang1375830242/PicGo//img/20200415102707.webp" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/wang1375830242/PicGo//img/20200415102707.webp">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/wang1375830242/PicGo//img/20200604170024.webp" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/wang1375830242/PicGo//img/20200604170024.webp">
               </div>
               <span class="label">
               Next Post</span>
               <div class="info">
                 <h3>
-                使用OpenCV，Python和dlib进行眨眼检测</h3>
+                Java Steam流 学习小笔记</h3>
                 <hr>
               </div>
             </a>
@@ -733,7 +1367,7 @@ Process finished with exit code 0
           </div>
         </div>
         <hr>
-        <p><i class="iconfont icon-write"></i>The best preparation for tomorrow is doing your best today.</p>
+        <p><i class="iconfont icon-write"></i>The best preparation for tomorrow is doing your best today</p>
       </section>
     </main><!-- #main -->
   </div><!-- #primary -->

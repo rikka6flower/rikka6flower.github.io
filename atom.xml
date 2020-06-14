@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.sakura521.cn/"/>
-  <updated>2020-06-04T09:00:49.525Z</updated>
+  <updated>2020-06-14T10:24:53.751Z</updated>
   <id>https://www.sakura521.cn/</id>
   
   <author>
@@ -17,11 +17,33 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Spring Boot RabbitMQ 小练习</title>
+    <link href="https://www.sakura521.cn/technology/rabbitMQ.html"/>
+    <id>https://www.sakura521.cn/technology/rabbitMQ.html</id>
+    <published>2020-06-14T07:46:04.000Z</published>
+    <updated>2020-06-14T10:24:53.751Z</updated>
+    
+    <summary type="html">
+    
+      Spring Boot RabbitMQ 小练习
+    
+    </summary>
+    
+      <category term="技术" scheme="https://www.sakura521.cn/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="技术" scheme="https://www.sakura521.cn/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="java" scheme="https://www.sakura521.cn/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Java Steam流 学习小笔记</title>
     <link href="https://www.sakura521.cn/technology/steam.html"/>
     <id>https://www.sakura521.cn/technology/steam.html</id>
     <published>2020-06-04T08:49:20.000Z</published>
-    <updated>2020-06-04T09:00:49.525Z</updated>
+    <updated>2020-06-05T09:01:53.256Z</updated>
     
     <summary type="html">
     
@@ -405,24 +427,6 @@
     
     
       <category term="技术" scheme="https://www.sakura521.cn/tags/%E6%8A%80%E6%9C%AF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>RSS 介绍</title>
-    <link href="https://www.sakura521.cn/technology/RSSExplanation.html"/>
-    <id>https://www.sakura521.cn/technology/RSSExplanation.html</id>
-    <published>2020-02-28T12:56:45.000Z</published>
-    <updated>2020-03-19T14:29:41.810Z</updated>
-    
-    <summary type="html">
-    
-      RSS 介绍
-    
-    </summary>
-    
-      <category term="技术" scheme="https://www.sakura521.cn/categories/%E6%8A%80%E6%9C%AF/"/>
-    
     
   </entry>
   
