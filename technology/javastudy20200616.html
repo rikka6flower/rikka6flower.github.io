@@ -406,8 +406,7 @@
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
         <div class="entry-content">
-          <h1 id="java代码"><a href="#java代码" class="headerlink" title="java代码"></a>java代码</h1><pre><code class="java">
-    public static void main(String[] args) {
+          <h1 id="java代码"><a href="#java代码" class="headerlink" title="java代码"></a>java代码</h1><pre><code class="java">    public static void main(String[] args) {
 
         // int Integer区别
         Integer a = new Integer(3);
@@ -493,7 +492,15 @@
             iii ^= num;
         }
         System.out.println(&quot;只出现一次的数字为&quot; + iii);
+        System.out.println(&quot;----------------------------------&quot;);
 
+        // char类型可以存储一个中文汉字，
+        // 因为Java中使用的编码是Unicode（不选择任何特定的编码，直接使用字符在字符集中的编号，这是统一的唯一方法），
+        // 一个char类型占2个字节（16比特），所以放一个中文是没问题的。
+        // char型变量中能存储一个中文汉字（这个汉字 𪚥（zhé 字符串为\uD869\uDEA5） 不行，那个biang打不出来所以试不成 ）
+//        char cr = &#39;𪚥&#39;;
+        char cr = &#39;齉&#39;; // nàng
+        System.out.println(&quot;char类型包含一个汉字 = &quot; + cr);
 
     }
 </code></pre>
@@ -523,9 +530,47 @@ false
 ----------------------------------
 x = 2
 y = 1
-iii = 3
+只出现一次的数字为3
+----------------------------------
+char类型包含一个汉字 = 齉
 
 Process finished with exit code 0
+</code></pre><h1 id="代码2"><a href="#代码2" class="headerlink" title="代码2"></a>代码2</h1><pre><code class="java">public class A {
+
+    static {
+        System.out.print(&quot;1&quot;);
+    }
+
+    public A() {
+        System.out.print(&quot;2&quot;);
+
+
+    }
+}
+public class B extends A{
+
+    static {
+        System.out.print(&quot;a&quot;);
+    }
+
+    public B() {
+        System.out.print(&quot;b&quot;);
+
+
+    }
+}
+public class AB {
+
+    public static void main(String[] args) {
+
+        A ab = new B();
+        ab = new B();
+    }
+
+
+}
+</code></pre>
+<h1 id="运行结果-1"><a href="#运行结果-1" class="headerlink" title="运行结果"></a>运行结果</h1><pre><code>1a2b2b
 </code></pre>
         </div>
 		
