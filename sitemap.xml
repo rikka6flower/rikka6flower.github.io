@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://www.sakura521.cn/technology/docker.html</loc>
+    
+    <lastmod>2020-07-09T02:22:55.946Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://www.sakura521.cn/technology/javastudy20200616.html</loc>
     
     <lastmod>2020-06-16T09:42:56.545Z</lastmod>
@@ -282,13 +289,6 @@
   </url>
   
   <url>
-    <loc>https://www.sakura521.cn/scaffolds/draft.html</loc>
-    
-    <lastmod>2019-11-16T09:29:49.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://www.sakura521.cn/rss/index.html</loc>
     
     <lastmod>2019-11-16T09:29:49.000Z</lastmod>
@@ -296,14 +296,14 @@
   </url>
   
   <url>
-    <loc>https://www.sakura521.cn/theme-sakura/index.html</loc>
+    <loc>https://www.sakura521.cn/scaffolds/draft.html</loc>
     
     <lastmod>2019-11-16T09:29:49.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://www.sakura521.cn/scaffolds/page.html</loc>
+    <loc>https://www.sakura521.cn/theme-sakura/index.html</loc>
     
     <lastmod>2019-11-16T09:29:49.000Z</lastmod>
     
@@ -324,7 +324,7 @@
   </url>
   
   <url>
-    <loc>https://www.sakura521.cn/links/index.html</loc>
+    <loc>https://www.sakura521.cn/scaffolds/page.html</loc>
     
     <lastmod>2019-11-16T09:29:49.000Z</lastmod>
     
@@ -332,6 +332,13 @@
   
   <url>
     <loc>https://www.sakura521.cn/video/index.html</loc>
+    
+    <lastmod>2019-11-16T09:29:49.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.sakura521.cn/links/index.html</loc>
     
     <lastmod>2019-11-16T09:29:49.000Z</lastmod>
     
